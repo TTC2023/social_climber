@@ -30,3 +30,20 @@ def dashboard():
         'id': session['user_id']
     }
     return render_template("dashboard.html",user=User.get_user_by_id(data), posts=Post.get_all_posts())
+
+@app.route('/login',methods=['POST'])
+def login():
+    user = User.get_by_email(request.form)
+    if not user:
+        flash("Invalid email/password","login")
+        return redirect('/')
+    if not bcrypt.check_password_hash(user.password, request.form['password']):
+        flash("Invalid Password","login")
+        return redirect('/')
+    session['user_id'] = user.id
+    return redirect('/dashboard')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')

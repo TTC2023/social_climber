@@ -26,6 +26,14 @@ class User:
             return False
         return cls(results[0])
 
+    @classmethod
+    def get_by_email(cls,data):
+        query = "SELECT * FROM users WHERE email = %(email)s;"
+        results = connectToMySQL('magazines').query_db(query,data)
+        if len(results) < 1:
+            return False
+        return cls(results[0])
+
     @staticmethod
     def validate_register(user):
         is_valid = True
