@@ -19,7 +19,7 @@ def process_post():
 def process_edit(id):
     if not Post.validate_post(request.form):
         return redirect(f'/edit/post/{id}')
-    Post.make_post(request.form)
+    Post.update(request.form)
     return redirect('/dashboard')
 
 @app.route('/edit/post/<int:id>')

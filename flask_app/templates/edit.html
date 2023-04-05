@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edit</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 <body class="bg-light">
+    <style>
+        body {
+            background-image: url('https://source.unsplash.com/gTQbZXL417Q');
+            background-size: cover;
+        }
+    </style>
     <div class="container my-5">
         <h1 class="mx-auto text-center text-white bg-dark p-3">Edit Post</h1>
         <a href="/dashboard">Go Back to Dashboard</a>
@@ -21,6 +27,7 @@
                 {% endif %}
             {% endwith %}
             <input type="hidden" name="user_id" value="{{session['user_id']}}">
+            <input type="hidden" name="id" value="{{post.id}}">
             <div class="mb-3">
                 <label for="location" class="form-label">Location:</label>
                 <input type="text" name="location" class="form-control" value="{{post.location}}">
@@ -28,10 +35,10 @@
             <div class="mb-3">
                 <label for="type">Choose a type of climbing:</label>
                 <select id="type" name="type" value={{post.type}}>
-                    <option value="boulder">Bouldering</option>
-                    <option value="toprope">Top-Roping</option>
-                    <option value="sport">Sport Climbing</option>
-                    <option value="trad">Traditional Climbing</option>
+                    <option value="Boulder">Bouldering</option>
+                    <option value="Toprope">Top-Roping</option>
+                    <option value="Sport">Sport Climbing</option>
+                    <option value="Trad">Traditional Climbing</option>
                 </select>
             </div>
             <div class="mb-3 row">
@@ -40,7 +47,7 @@
             </div>            
             <div class="mb-3">
                 <label for="comment" class="form-label">Comment:</label>
-                <textarea name="comment" id="" cols="30" rows="10" class="form-control" value="{{post.comment}}"></textarea>
+                <textarea name="comment" id="" cols="30" rows="10" class="form-control">{{post.comment}}</textarea>
             </div>
             <div class="text-center">
                 <input class="btn btn-primary px-5" type="submit" value="Submit">
