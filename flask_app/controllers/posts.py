@@ -14,3 +14,24 @@ def process_post():
         return redirect('/create/post')
     Post.make_post(request.form)
     return redirect('/dashboard')
+
+@app.route('/edit/post/<int:id>')
+def edit_post(id):
+    if 'user_id' not in session:
+        return redirect('/logout')
+    data ={
+        'id': id
+    }
+    user_id={
+        'id': session['user_id']
+    }
+    return render_template('edit.html',post=Post.get_by_id(data))
+
+
+@app.route('/delete/post/<int:id>')
+def destroy(id):
+    data={
+        'id': id
+    }
+    Post.destroy(data)
+    return redirect('/dashboard')

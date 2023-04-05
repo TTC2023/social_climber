@@ -10,29 +10,20 @@
 <body class="bg-secondary">
     <h1 class="mx-auto text-center text-white bg-dark p-3">Welcome to Social Climber</h1>
     <div class="d-flex justify-content-around">
-        <div>
-            <h2 class="text-light">Register</h2>
-            {% with messages = get_flashed_messages(category_filter=["register"]) %}
-                {% if messages %}
-                    {% for message in messages %}
-                    <p class="text-danger">{{message}}</p>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-        </div>
-        <div>
-            <h2 class="text-light">Login</h2>
-            {% with messages = get_flashed_messages(category_filter=["login"]) %}
-                {% if messages %}
-                    {% for message in messages %}
-                    <p class="text-danger">{{message}}</p>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-        </div>
+        <h2 class="text-light">Register</h2>
+        <h2 class="text-light">Login</h2>
     </div>
     <div class="d-flex">
         <form class="vstack m-2 p-4 card bg-light" action="/register" method="POST">
+            <div>
+                {% with messages = get_flashed_messages(category_filter=["register"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                        <li class="text-danger">{{message}}</li>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
             <label for="username" class="form-label">Username:</label>
             <input type="text" name="username" class="form-control mb-2">
             <label for="email" class="form-label">Email:</label>
@@ -44,6 +35,15 @@
             <input class="btn btn-primary" type="submit" value="Register">
         </form>
         <form class="vstack m-2 p-4 card bg-light" action="/login" method="POST">
+            <div>
+                {% with messages = get_flashed_messages(category_filter=["login"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                        <li class="text-danger">{{message}}</li>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
             <label for="email" class="form-label">Email:</label>
             <input type="text" name="email" class="form-control mb-2">
             <label for="password" class="form-label">Password:</label>

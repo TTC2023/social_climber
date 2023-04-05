@@ -29,7 +29,7 @@ class User:
     @classmethod
     def get_by_email(cls,data):
         query = "SELECT * FROM users WHERE email = %(email)s;"
-        results = connectToMySQL('magazines').query_db(query,data)
+        results = connectToMySQL('social_climber').query_db(query,data)
         if len(results) < 1:
             return False
         return cls(results[0])

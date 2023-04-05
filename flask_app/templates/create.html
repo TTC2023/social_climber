@@ -10,35 +10,37 @@
 <body class="bg-light">
     <div class="container my-5">
         <h1 class="mx-auto text-center text-white bg-dark p-3">Create Post</h1>
-        {% with messages = get_flashed_messages(category_filter=["post"]) %}
-            {% if messages %}
-                {% for message in messages %}
-                <p>{{message}}</p>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+        <a href="/dashboard">Go Back to Dashboard</a>
+        <a href="/logout">Logout</a>
         <form class="card p-3 p-md-4 rounded-3 shadow-sm" action="/process/post" method="POST">
+            {% with messages = get_flashed_messages(category_filter=["post"]) %}
+                {% if messages %}
+                    {% for message in messages %}
+                    <li class="text-danger text-center">{{message}}</li>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
             <input type="hidden" name="user_id" value="{{session['user_id']}}">
             <div class="mb-3">
                 <label for="location" class="form-label">Location:</label>
                 <input type="text" name="location" class="form-control">
             </div>
+            <div class="mb-3">
+                <label for="type">Choose a type of climbing:</label>
+                <select id="type" name="type">
+                    <option value="boulder">Bouldering</option>
+                    <option value="toprope">Top-Roping</option>
+                    <option value="sport">Sport Climbing</option>
+                    <option value="trad">Traditional Climbing</option>
+                </select>
+            </div>
             <div class="mb-3 row">
                 <label for="grade" class="col-sm-2 col-form-label">Grade:</label>
-                <div class="col-sm-10">
-                    <div class="input-group">
-                        <span class="input-group-text">5.</span>
-                        <input type="number" name="grade" class="form-control">
-                    </div>
-                </div>
+                <input type="text" name="grade" class="form-control">
             </div>            
             <div class="mb-3">
                 <label for="comment" class="form-label">Comment:</label>
                 <textarea name="comment" id="" cols="30" rows="10" class="form-control"></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="date" class="form-label">Date</label>
-                <input type="date" name="date" class="form-control"></textarea>
             </div>
             <div class="text-center">
                 <input class="btn btn-primary px-5" type="submit" value="Submit">

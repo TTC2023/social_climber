@@ -14,9 +14,9 @@
             <thead>
                 <tr>
                     <th>Location</th>
+                    <th>Type</th>
                     <th>Grade</th>
                     <th>Comment</th>
-                    <th>Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -24,9 +24,9 @@
                 {% for post in posts %}
                 <tr>
                     <td class="text-white">{{ post.location }}</td>
-                    <td class="text-white">5.{{ post.grade }}</td>
+                    <td class="text-white">{{ post.type }}</td>
+                    <td class="text-white">{{ post.grade }}</td>
                     <td class="text-white">{{ post.comment }}</td>
-                    <td class="text-white">{{ post.created_at }}</td>
                     <td>
                         <a href="/edit/post/{{ post.id }}" class="btn btn-sm btn-primary">Edit</a>
                         <a href="/delete/post/{{ post.id }}" class="btn btn-sm btn-danger">Delete</a>
