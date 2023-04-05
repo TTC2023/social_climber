@@ -15,6 +15,13 @@ def process_post():
     Post.make_post(request.form)
     return redirect('/dashboard')
 
+@app.route('/process/edit/<int:id>', methods=['POST'])
+def process_edit(id):
+    if not Post.validate_post(request.form):
+        return redirect(f'/edit/post/{id}')
+    Post.make_post(request.form)
+    return redirect('/dashboard')
+
 @app.route('/edit/post/<int:id>')
 def edit_post(id):
     if 'user_id' not in session:
