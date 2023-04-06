@@ -12,6 +12,7 @@ class Post:
         self.grade = data['grade']
         self.comment = data['comment']
         self.user_id = data['user_id']
+        self.likes = []
 
     @classmethod
     def make_post(cls,data):
@@ -45,6 +46,28 @@ class Post:
     def destroy(cls,data):
         query = "DELETE FROM posts WHERE id = %(id)s"
         return connectToMySQL('social_climber').query_db(query,data)
+
+    @classmethod
+    def get_all_posts(cls, filter=None):
+        query = "SELECT * FROM posts ORDER BY created_at DESC;"
+        if filter:
+            query = f"SELECT * FROM posts WHERE location = '{filter}' OR type = '{filter}' ORDER BY created_at DESC;"
+        results = connectToMySQL('social_climber').query_db(query)
+        posts = []
+        for row in results:
+            post_data = {
+                "id": row['id'],
+                "location": row['location'],
+                "type": row['type'],
+                "grade": row['grade'],
+                "comment": row['comment'],
+                "user_id": row['user_id']
+            }
+            post = cls(post_data)
+            posts.append(post)
+        return posts
+
+
 
     @staticmethod
     def validate_post(post):

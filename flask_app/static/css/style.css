@@ -1,9 +1,0 @@
-form {
-    background-color: rgba(255, 255, 255, 0.75); /* set background color with opacity */
-    border: 1px solid black; /* add border */
-}
-
-form input {
-    background-color: transparent; /* set input background to transparent */
-}
-
