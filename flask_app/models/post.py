@@ -12,7 +12,8 @@ class Post:
         self.grade = data['grade']
         self.comment = data['comment']
         self.user_id = data['user_id']
-        self.likes = []
+        self.created_at = data['created_at']
+        self.updated_at = data['updated_at']
 
     @classmethod
     def make_post(cls,data):
@@ -37,6 +38,14 @@ class Post:
             return False
         return cls(results[0])
 
+    # @classmethod
+    # def get_likes_by_id(cls):
+    #     query = "SELECT * FROM likes WHERE id = post.id;"
+    #     results = connectToMySQL('social_climber').query_db(query)
+    #     if len(results) < 1:
+    #         return False
+    #     return cls(results[0])
+
     @classmethod
     def update(cls,data):
         query = "UPDATE posts SET location=%(location)s,type=%(type)s,grade=%(grade)s,comment=%(comment)s,updated_at=NOW() WHERE id = %(id)s;"
@@ -46,28 +55,6 @@ class Post:
     def destroy(cls,data):
         query = "DELETE FROM posts WHERE id = %(id)s"
         return connectToMySQL('social_climber').query_db(query,data)
-
-    @classmethod
-    def get_all_posts(cls, filter=None):
-        query = "SELECT * FROM posts ORDER BY created_at DESC;"
-        if filter:
-            query = f"SELECT * FROM posts WHERE location = '{filter}' OR type = '{filter}' ORDER BY created_at DESC;"
-        results = connectToMySQL('social_climber').query_db(query)
-        posts = []
-        for row in results:
-            post_data = {
-                "id": row['id'],
-                "location": row['location'],
-                "type": row['type'],
-                "grade": row['grade'],
-                "comment": row['comment'],
-                "user_id": row['user_id']
-            }
-            post = cls(post_data)
-            posts.append(post)
-        return posts
-
-
 
     @staticmethod
     def validate_post(post):

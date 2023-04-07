@@ -30,7 +30,7 @@ def dashboard():
     data ={
         'id': session['user_id']
     }
-    return render_template("dashboard.html",user=User.get_user_by_id(data), posts=Post.get_all_posts(), likes=Post.get_num_of_likes())
+    return render_template("dashboard.html",user=User.get_user_by_id(data), posts=Post.get_all_posts(), likes=Like.get_all_likes())
 
 @app.route('/login',methods=['POST'])
 def login():

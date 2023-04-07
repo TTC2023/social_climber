@@ -34,6 +34,14 @@ class User:
             return False
         return cls(results[0])
 
+    # Not the right direction to go in
+    # @classmethod
+    # def liked_status(cls,data):
+    #     query = "SELECT * FROM likes JOIN users ON users.id = likes.user_id WHERE likes.post_id = %(post_id)s AND likes.user_id = %(user_id)s;"
+    #     results = connectToMySQL('social_climber').query_db(query,data)
+    #     print(results)
+    #     return results
+
     @staticmethod
     def validate_register(user):
         is_valid = True

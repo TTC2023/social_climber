@@ -1,6 +1,7 @@
 from flask import render_template,redirect,session,request, flash
 from flask_app import app
 from flask_app.models.post import Post
+from flask_app.models.like import Like
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
@@ -34,11 +35,11 @@ def edit_post(id):
     }
     return render_template('edit.html',post=Post.get_by_id(data))
 
-
 @app.route('/delete/post/<int:id>')
 def destroy(id):
     data={
         'id': id
     }
+    Like.destroy(data)
     Post.destroy(data)
     return redirect('/dashboard')

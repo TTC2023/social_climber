@@ -27,33 +27,46 @@
                     <th>Grade</th>
                     <th>Comment</th>
                     <th>Actions</th>
-                    <th>Like(s)</th>
                 </tr>
             </thead>
             <tbody>
                 {% for post in posts %}
-                <tr>
-                    <td class="text-white">{{ post.location }}</td>
-                    <td class="text-white">{{ post.type }}</td>
-                    <td class="text-white">{{ post.grade }}</td>
-                    <td class="text-white">{{ post.comment }}</td>
-                    {% if post.user_id == user.id %}  
-                        <td>
-                            <a href="/edit/post/{{ post.id }}" class="btn btn-sm btn-primary">Edit</a>
-                            <a href="/delete/post/{{ post.id }}" class="btn btn-sm btn-danger">Delete</a>
-                        </td>
-                    {% else %}
-                        <td>
-                            <form action="/like/{{ post.id }}/{{user.id}}" method="POST">
-                                <button type="submit" class="btn btn-sm btn-primary">Like</button>
-                            </form>
-                            
-                        </td>
-                    {% endif %}
-                    <td>{{post.likes}}</td>
-                </tr>
+                    <tr>
+                        <td class="text-white">{{ post.location }}</td>
+                        <td class="text-white">{{ post.type }}</td>
+                        <td class="text-white">{{ post.grade }}</td>
+                        <td class="text-white">{{ post.comment }}</td>
+                        {% if post.user_id == user.id %}  
+                            <td>
+                                <a href="/edit/post/{{post.id}}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="/delete/post/{{post.id}}" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        {% else %}
+                            <td>
+                                {% if likes == [] %}
+                                    <form action="/like/{{ post.id }}/{{user.id}}" method="POST">
+                                        <input type="hidden" name="status" value="1">
+                                        <button type="submit" class="btn btn-sm btn-primary">Like</button>
+                                    </form>
+                                {% endif%}
+                                {% for like in likes %}
+                                    {% if like.post_id == post.id and like.status==true and like.user_id == user.id%} 
+                                        <form action="/unlike/{{post.id}}/{{user.id}}" method="POST">
+                                            <input type="hidden" name="status" value="0">
+                                            <button type="submit" class="btn btn-sm btn-primary">Unlike</button>
+                                        </form>
+                                    {% else %}
+                                        <form action="/like/{{post.id}}/{{user.id}}" method="POST">
+                                            <input type="hidden" name="status" value="1">
+                                            <button type="submit" class="btn btn-sm btn-primary">Like</button>
+                                        </form>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            {% endif %}
+                        </tr>
                 {% endfor %}
-            </tbody>
+            </tbody>            
         </table>
     </div>
     <div class="m-5">
