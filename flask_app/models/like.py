@@ -12,10 +12,29 @@ class Like:
     @classmethod
     def get_all_likes(cls):
         query = "SELECT * FROM likes;"
-        results = connectToMySQL('social_climber').query_db(query)
         likes = []
-        for l in results:
-            likes.append( cls(l) )
+        results = connectToMySQL('social_climber').query_db(query)
+        for row in results:
+            likes.append(cls(row))
+        return likes
+
+    @classmethod
+    def get_all_likes_by_user(cls,data):
+        query = "SELECT likes.id, users.id as user_id, posts.id as post_id, likes.status, likes.created_at, likes.updated_at FROM likes JOIN users ON likes.user_id = %(id)s JOIN posts ON likes.post_id = posts.id;"
+        results = connectToMySQL('social_climber').query_db(query,data)
+
+        likes = []
+        print(results)
+        for row in results:
+            data = {
+                "id": row['id'],
+                "user_id": row['user_id'],
+                "post_id": row['post_id'],
+                "status": row['status'],
+                "created_at": row['created_at'],
+                "updated_at": row['updated_at']
+            }
+            likes.append(cls(data))
         return likes
 
     @classmethod

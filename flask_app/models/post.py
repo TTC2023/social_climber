@@ -38,13 +38,14 @@ class Post:
             return False
         return cls(results[0])
 
-    # @classmethod
-    # def get_likes_by_id(cls):
-    #     query = "SELECT * FROM likes WHERE id = post.id;"
-    #     results = connectToMySQL('social_climber').query_db(query)
-    #     if len(results) < 1:
-    #         return False
-    #     return cls(results[0])
+    @classmethod
+    def get_user_post_id(cls,data):
+        query = "SELECT * FROM users JOIN posts ON posts.user_id = users.id WHERE users.id = %(id)s;"
+        results = connectToMySQL('social_climber').query_db(query,data)
+        if len(results) < 1:
+            return False
+        console.log(cls(results[0]))
+        return cls(results[0])
 
     @classmethod
     def update(cls,data):
