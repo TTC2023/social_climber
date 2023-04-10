@@ -39,15 +39,6 @@ class Post:
         return cls(results[0])
 
     @classmethod
-    def get_user_post_id(cls,data):
-        query = "SELECT * FROM users JOIN posts ON posts.user_id = users.id WHERE users.id = %(id)s;"
-        results = connectToMySQL('social_climber').query_db(query,data)
-        if len(results) < 1:
-            return False
-        console.log(cls(results[0]))
-        return cls(results[0])
-
-    @classmethod
     def update(cls,data):
         query = "UPDATE posts SET location=%(location)s,type=%(type)s,grade=%(grade)s,comment=%(comment)s,updated_at=NOW() WHERE id = %(id)s;"
         return connectToMySQL('social_climber').query_db(query,data)
@@ -56,6 +47,27 @@ class Post:
     def destroy(cls,data):
         query = "DELETE FROM posts WHERE id = %(id)s"
         return connectToMySQL('social_climber').query_db(query,data)
+
+    @classmethod
+    def get_all_by_posts(cls):
+        query = "SELECT * FROM posts LEFT JOIN likes ON posts.id = likes.post_id LEFT JOIN users ON users.id = likes.user_id;"
+        results = connectToMySQL('social_climber').query_db(query)
+        posts = []
+        for row in results:
+            post = cls(row)
+            user_data = {
+                "id": row['users.id'],
+                "username": row['username'],
+                "email": row['email'],
+                "password": row['password'],
+                "created_at": row['users.created_at'],
+                "updated_at": row['users.updated_at']
+            }
+            user = User(user_data)
+            post.user = user
+            posts.append(post)
+        return posts
+
 
     @staticmethod
     def validate_post(post):

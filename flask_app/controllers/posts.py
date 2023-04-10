@@ -2,12 +2,18 @@ from flask import render_template,redirect,session,request, flash
 from flask_app import app
 from flask_app.models.post import Post
 from flask_app.models.like import Like
+from flask_app.models.user import User
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
 @app.route('/create/post')
 def create_post():
-    return render_template('create.html')
+    if 'user_id' not in session:
+        return redirect('/logout')
+    data ={
+        'id': session['user_id']
+    }
+    return render_template('create.html', user=User.get_user_by_id(data))
 
 @app.route('/process/post', methods=['POST'])
 def process_post():
