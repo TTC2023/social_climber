@@ -14,6 +14,7 @@ class Post:
         self.user_id = data['user_id']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.likes = []
 
     @classmethod
     def make_post(cls,data):
@@ -65,9 +66,10 @@ class Post:
             }
             user = User(user_data)
             post.user = user
+            if row['likes.id']:
+                post.likes.append(row['likes.user_id'])
             posts.append(post)
         return posts
-
 
     @staticmethod
     def validate_post(post):
