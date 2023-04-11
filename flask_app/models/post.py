@@ -32,6 +32,15 @@ class Post:
         return posts
 
     @classmethod
+    def get_all_posts(cls):
+        query = "SELECT * FROM posts;"
+        results = connectToMySQL('social_climber').query_db(query)
+        posts = []
+        for p in results:
+            posts.append( cls(p) )
+        return posts
+
+    @classmethod
     def get_by_id(cls,data):
         query = "SELECT * FROM posts WHERE id = %(id)s;"
         results = connectToMySQL('social_climber').query_db(query,data)
@@ -50,26 +59,52 @@ class Post:
         return connectToMySQL('social_climber').query_db(query,data)
 
     @classmethod
+    def find_holds(cls,data):
+        query = "SELECT * FROM posts LEFT JOIN likes ON posts.id = likes.post_id LEFT JOIN users ON users.id = likes.user_id WHERE posts.id = %(id)s;"
+        results = connectToMySQL('social_climber').query_db(query,data)
+        print(results)
+        result = []
+        if results:
+            for i in results:
+                result.append(i["likes.user_id"])
+        return result
+
+    @classmethod
     def get_all_by_posts(cls):
-        query = "SELECT * FROM posts LEFT JOIN likes ON posts.id = likes.post_id LEFT JOIN users ON users.id = likes.user_id;"
+        query = "SELECT * FROM posts;"
         results = connectToMySQL('social_climber').query_db(query)
+        print(results)
         posts = []
         for row in results:
             post = cls(row)
-            user_data = {
-                "id": row['users.id'],
-                "username": row['username'],
-                "email": row['email'],
-                "password": row['password'],
-                "created_at": row['users.created_at'],
-                "updated_at": row['users.updated_at']
-            }
-            user = User(user_data)
-            post.user = user
-            if row['likes.id']:
-                post.likes.append(row['likes.user_id'])
+            post.likes=Post.find_holds({"id": row['id']})
             posts.append(post)
+
         return posts
+    
+    # @classmethod
+    # def get_all_by_posts(cls):
+    #     query = "SELECT * FROM posts LEFT JOIN likes ON posts.id = likes.post_id LEFT JOIN users ON users.id = likes.user_id;"
+    #     results = connectToMySQL('social_climber').query_db(query)
+    #     print(results)
+    #     posts = []
+    #     for row in results:
+    #         post = cls(row)
+    #         user_data = {
+    #             "id": row['users.id'],
+    #             "username": row['username'],
+    #             "email": row['email'],
+    #             "password": row['password'],
+    #             "created_at": row['users.created_at'],
+    #             "updated_at": row['users.updated_at']
+    #         }
+    #         user = User(user_data)
+    #         post.user = user
+    #         if row['likes.id']:
+    #             post.likes.append(row['likes.user_id'])
+    #         posts.append(post)
+    #     return posts
+
 
     @staticmethod
     def validate_post(post):

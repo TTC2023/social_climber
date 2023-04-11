@@ -7,7 +7,6 @@ class Like:
         self.id = data['id']
         self.post_id = data['post_id']
         self.user_id = data['user_id']
-        self.status = data['status']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
@@ -22,7 +21,7 @@ class Like:
 
     @classmethod
     def save(cls,data):
-        query = "INSERT INTO likes (post_id,user_id,status) VALUES(%(post_id)s,%(user_id)s,%(status)s)"
+        query = "INSERT INTO likes (post_id,user_id) VALUES(%(post_id)s,%(user_id)s)"
         return connectToMySQL('social_climber').query_db(query,data)
 
     @classmethod

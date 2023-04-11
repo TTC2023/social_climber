@@ -30,63 +30,24 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- create many to many table for the whole table instead of a double for loop -->
                 {% for post in all_liked_posts %}
                     <tr>
                         <td class="text-white">{{ post.location }}</td>
                         <td class="text-white">{{ post.type }}</td>
                         <td class="text-white">{{ post.grade }}</td>
                         <td class="text-white">{{ post.comment }}</td>
-                        {% if post.user_id == user.id %}  
                             <td>
-                                <a href="/edit/post/{{post.id}}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="/delete/post/{{post.id}}" class="btn btn-sm btn-danger">Delete</a>
-                            </td>
-                        {% else %}
-                            <td>
-                                <!-- {% if likes == [] %}
+                                {% if user.id not in post.likes %}
                                     <form action="/like/{{ post.id }}/{{user.id}}" method="POST">
                                         <input type="hidden" name="status" value="1">
                                         <button type="submit" class="btn btn-sm btn-primary">Like</button>
                                     </form>
-                                {% endif%} -->
-                                {% if post.user.username == user.username %}
+                                {% else %}
                                     <form action="/unlike/{{post.id}}/{{user.id}}" method="POST">
                                         <input type="hidden" name="status" value="0">
                                         <button type="submit" class="btn btn-sm btn-primary">Unlike</button>
                                     </form>
-                                {% else %}
-                                    <form action="/like/{{post.id}}/{{user.id}}" method="POST">
-                                        <input type="hidden" name="status" value="1">
-                                        <button type="submit" class="btn btn-sm btn-primary">Like</button>
-                                    </form>
                                 {% endif %}
-                                <!-- {% for like in all_liked_posts %}
-                                    {% if user.id == like.user_id %}
-                                        {% if loop.first and post.id == like.post_id %}
-                                        <form action="/unlike/{{post.id}}/{{user.id}}" method="POST">
-                                            <input type="hidden" name="status" value="0">
-                                            <button type="submit" class="btn btn-sm btn-primary">Unlike</button>
-                                        </form>
-                                        {% else %}
-                                        <form action="/like/{{post.id}}/{{user.id}}" method="POST">
-                                            <input type="hidden" name="status" value="1">
-                                            <button type="submit" class="btn btn-sm btn-primary">Like</button>
-                                        </form>
-                                        {% endif %}
-                                    {% endif %} -->
-                                    <!-- {% if post.id == like.post_id %}
-                                        <form action="/unlike/{{post.id}}/{{user.id}}" method="POST">
-                                            <input type="hidden" name="status" value="0">
-                                            <button type="submit" class="btn btn-sm btn-primary">Unlike</button>
-                                        </form>
-                                    {% else %}
-                                        <form action="/like/{{post.id}}/{{user.id}}" method="POST">
-                                            <input type="hidden" name="status" value="1">
-                                            <button type="submit" class="btn btn-sm btn-primary">Like</button>
-                                        </form>
-                                    {% endif %} -->
-                                <!-- {% endfor %} -->
                             </td>
                             <!-- <td>
                                 {% if likes == [] %}
@@ -109,7 +70,6 @@
                                     {% endif %}
                                 {% endfor %}
                             </td> -->
-                            {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>            

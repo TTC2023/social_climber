@@ -30,7 +30,7 @@ def dashboard():
     data ={
         'id': session['user_id']
     }
-    return render_template("dashboard.html",user=User.get_user_by_id(data), all_liked_posts=Post.get_all_by_posts())
+    return render_template("dashboard.html",user=User.get_user_by_id(data), posts = Post.get_all_posts(), all_liked_posts=Post.get_all_by_posts())
     # might have too many class methods
 
 @app.route('/login',methods=['POST'])
