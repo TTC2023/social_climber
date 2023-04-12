@@ -9,17 +9,15 @@ def process_like(post_id, user_id):
     data = {
         "post_id": post_id,
         "user_id": user_id,
-        "status": status,
     }
     Like.save(data)
     return redirect('/dashboard')
 
 
-@app.route('/unlike/<int:post_id>/<int:user_id>', methods=['POST'])
-def destroy_like(post_id,user_id):
+@app.route('/unlike/<int:id>', methods=['POST'])
+def destroy_like(id):
     data = {
-        "post_id" : post_id,
-        "user_id" : user_id
+        'id' : id,
     }
     Like.destroy(data)
     return redirect('/dashboard')

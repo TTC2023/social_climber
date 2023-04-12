@@ -59,10 +59,10 @@ class Post:
         return connectToMySQL('social_climber').query_db(query,data)
 
     @classmethod
-    def find_holds(cls,data):
+    def find_likes(cls,data):
         query = "SELECT * FROM posts LEFT JOIN likes ON posts.id = likes.post_id LEFT JOIN users ON users.id = likes.user_id WHERE posts.id = %(id)s;"
         results = connectToMySQL('social_climber').query_db(query,data)
-        print(results)
+        # print(results)
         result = []
         if results:
             for i in results:
@@ -70,16 +70,15 @@ class Post:
         return result
 
     @classmethod
-    def get_all_by_posts(cls):
+    def get_all_liked_posts(cls):
         query = "SELECT * FROM posts;"
         results = connectToMySQL('social_climber').query_db(query)
-        print(results)
         posts = []
         for row in results:
             post = cls(row)
-            post.likes=Post.find_holds({"id": row['id']})
+            post.likes=Post.find_likes({"id": row['id']})
+            print(post.likes)
             posts.append(post)
-
         return posts
     
     # @classmethod

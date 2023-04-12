@@ -36,10 +36,19 @@ def edit_post(id):
     data ={
         'id': id
     }
+    return render_template('edit.html',post=Post.get_by_id(data))
+
+@app.route('/show/post/<int:id>')
+def show_post(id):
+    if 'user_id' not in session:
+        return redirect('/logout')
     user_id={
         'id': session['user_id']
     }
-    return render_template('edit.html',post=Post.get_by_id(data))
+    data={
+        'id': id
+    }
+    return render_template('show.html', post=Post.get_by_id(data), user=User.get_user_by_id(user_id))
 
 @app.route('/delete/post/<int:id>')
 def destroy(id):
