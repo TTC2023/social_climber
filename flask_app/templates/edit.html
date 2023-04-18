@@ -34,11 +34,11 @@
             </div>
             <div class="mb-3">
                 <label for="type">Choose a type of climbing:</label>
-                <select id="type" name="type" value={{post.type}}>
-                    <option value="Boulder">Bouldering</option>
-                    <option value="Toprope">Top-Roping</option>
-                    <option value="Sport">Sport Climbing</option>
-                    <option value="Trad">Traditional Climbing</option>
+                <select id="type" name="type">
+                    <option value="Boulder" {{ 'selected' if post.type == 'Boulder' else '' }}>Bouldering</option>
+                    <option value="Toprope" {{ 'selected' if post.type == 'Toprope' else '' }}>Top-Roping</option>
+                    <option value="Sport" {{ 'selected' if post.type == 'Sport' else '' }}>Sport Climbing</option>
+                    <option value="Trad" {{ 'selected' if post.type == 'Trad' else '' }}>Traditional Climbing</option>
                 </select>
             </div>
             <div class="mb-3 row">
