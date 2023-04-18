@@ -5,7 +5,6 @@ from flask_app.models.post import Post
 
 @app.route('/like/<int:post_id>/<int:user_id>', methods=['POST'])
 def process_like(post_id, user_id):
-    status = 1
     data = {
         "post_id": post_id,
         "user_id": user_id,
@@ -14,10 +13,11 @@ def process_like(post_id, user_id):
     return redirect('/dashboard')
 
 
-@app.route('/unlike/<int:id>', methods=['POST'])
-def destroy_like(id):
+@app.route('/unlike/<int:post_id>/<int:user_id>', methods=['POST'])
+def destroy_like(post_id, user_id):
     data = {
-        'id' : id,
+        "post_id": post_id,
+        "user_id": user_id,
     }
     Like.destroy(data)
     return redirect('/dashboard')

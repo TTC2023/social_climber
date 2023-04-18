@@ -26,6 +26,6 @@ class Like:
 
     @classmethod
     def destroy(cls,data):
-        query = "DELETE FROM likes WHERE likes.post_id = %(id)s;"
+        query = "DELETE FROM likes WHERE likes.post_id = %(post_id)s AND likes.user_id = %(user_id)s;"
         print("deleted........")
         return connectToMySQL('social_climber').query_db(query,data)

@@ -42,12 +42,10 @@
                         <td>
                             {% if user.id not in post.likes %}
                             <form action="/like/{{ post.id }}/{{user.id}}" method="POST">
-                                <input type="hidden" name="status" value="1">
                                 <button type="submit" class="btn btn-sm btn-primary">Like</button>
                             </form>
                             {% else %}
-                            <form action="/unlike/{{post.id}}" method="POST">
-                                <input type="hidden" name="status" value="0">
+                            <form action="/unlike/{{ post.id }}/{{user.id}}" method="POST">
                                 <button type="submit" class="btn btn-sm btn-primary">Unlike</button>
                             </form>
                             {% endif %}
